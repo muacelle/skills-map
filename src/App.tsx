@@ -26,7 +26,18 @@ function App() {
           prevSkill.skill === skill ? { ...prevSkill, points: newPoints } : prevSkill
         )
       )
+    } else {
+      // se os pontos acabaram, é possível somente retirar os pontos já alocados
+      setSkillsPoints((prevSkillsPoints) => 
+        prevSkillsPoints.map((prevSkill) =>
+          prevSkill.skill === skill && newPoints < prevSkill.points ? { ...prevSkill, points: newPoints } : prevSkill
+        )
+      )
     }
+  }
+
+  const handleSubmit = () => {
+    console.log('Dados submetidos:', skillsPoints);
   }
 
   return (
@@ -47,6 +58,9 @@ function App() {
         ))}
       </ul>
       <h3>Pontos restantes: {calculateRemainingPoints()}</h3>
+      <button onClick={handleSubmit} disabled={calculateRemainingPoints() < 0}>
+        Enviar
+      </button>
     </div>
   )
 }
