@@ -1,10 +1,10 @@
 import { User, SkillsPoints, Belt } from "../types"
 import { beltPoints } from "./belt-points"
-import { skillsList } from "./skills-list"
+import { skillsOptions } from "./skills-options"
 
 
-export const initialSkills: SkillsPoints[] = skillsList.reduce<SkillsPoints[]>((acc, item) => {
-    acc.push({skill: item, points: 0})
+const initialSkills: SkillsPoints[] = skillsOptions.reduce<SkillsPoints[]>((acc, item) => {
+    acc.push({ skill: item.value, points: 0 })
     return acc
 }, [])
 

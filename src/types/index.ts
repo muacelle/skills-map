@@ -27,3 +27,8 @@ export interface SkillsPoints {
     skill: Skills
     points: number
 }
+
+export interface SkillOption {
+    value: Skills
+    label: string
+}

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Skills, SkillsPoints } from "./types"
-import { user, skillsList} from './utils'
+import { user, skillsOptions } from './utils'
 import './App.css'
 
 function App() {
   const [skillsPoints, setSkillsPoints] = useState<SkillsPoints[]>(() => {
-    return skillsList.reduce<SkillsPoints[]>((acc, item) => {
-      acc.push({skill: item, points: 0})
+    return skillsOptions.reduce<SkillsPoints[]>((acc, item) => {
+      acc.push({skill: item.value, points: 0})
       return acc
   }, [])
   })
@@ -46,7 +46,7 @@ function App() {
       <ul>
         {skillsPoints.map((skillPoint) => (
           <li key={skillPoint.skill}>
-            {skillPoint.skill}: {skillPoint.points}
+            {skillsOptions.find((option) => option.value === skillPoint.skill)?.label}: {skillPoint.points}
             <input
               type="range"
               min={0}
