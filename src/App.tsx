@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Skills, SkillsPoints } from "./types/types"
+import { Skills, SkillsPoints, Belt, User } from "./types/types"
 import './App.css'
 
 function App() {
@@ -8,12 +8,6 @@ function App() {
     'quedas', 'saída-100kg', 'saída-montada', 'triangulo'
   ]
 
-  // const user: User = {
-  //     belt: Belt.Blue,
-  //     skillpoints: beltPoints('blue'),
-  //     skills: initialSkills,
-  // }
-
   const [skillsPoints, setSkillsPoints] = useState<SkillsPoints[]>(() => {
     return skillsList.reduce<SkillsPoints[]>((acc, item) => {
       acc.push({skill: item, points: 0})
@@ -21,28 +15,45 @@ function App() {
   }, [])
   })
 
-  const handlePointsChange = (skill: Skills, newPoints: number) => {
-    setSkillsPoints((prevSkillsPoints) =>
-      prevSkillsPoints.map((prevSkill) =>
-        prevSkill.skill === skill ? { ...prevSkill, points: newPoints } : prevSkill
-      )
-    )
+  function beltPoints(belt: string): number {
+    switch(belt) {
+        case 'white':
+            return 2
+        case 'blue':
+            return 4
+        case 'purple':
+            return 7
+        case 'brown':
+            return 10
+        case 'black':
+            return 14
+    }
+    return 0
+}
+
+  const user: User = {
+    belt: Belt.Blue,
+    skillpoints: beltPoints('blue'),
+    skills: skillsPoints,
   }
-  // function beltPoints(belt: string): number {
-  //     switch(belt) {
-  //         case 'white':
-  //             return 2
-  //         case 'blue':
-  //             return 4
-  //         case 'purple':
-  //             return 7
-  //         case 'brown':
-  //             return 10
-  //         case 'black':
-  //             return 14
-  //     }
-  //     return 0
-  // }
+
+  const totalAvailablePoints = user.skillpoints
+
+  function calculateRemainingPoints(): number {
+    const allocatedPoints = skillsPoints.reduce((acc, skill) => acc + skill.points, 0)
+    return totalAvailablePoints - allocatedPoints
+  }
+
+  const handlePointsChange = (skill: Skills, newPoints: number) => {
+    const remainingPoints = calculateRemainingPoints()
+    if (remainingPoints > 0) {
+      setSkillsPoints((prevSkillsPoints) =>
+        prevSkillsPoints.map((prevSkill) =>
+          prevSkill.skill === skill ? { ...prevSkill, points: newPoints } : prevSkill
+        )
+      )
+    }
+  }
 
   return (
     <div>
@@ -61,6 +72,7 @@ function App() {
           </li>
         ))}
       </ul>
+      <h3>Pontos restantes: {calculateRemainingPoints()}</h3>
     </div>
   )
 }
