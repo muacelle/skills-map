@@ -23,15 +23,7 @@ export type Skills =
     | 'estrangulamento'
     | 'kimura'
 
-export const skillsList: Skills[] = [
-    'arm-lock', 'estrangulamento', 'guarda-fechada', 'kimura', 'passagem-guarda',
-    'quedas', 'saída-100kg', 'saída-montada', 'triangulo'
-]
-
 export interface SkillsPoints {
     skill: Skills
     points: number
 }
-
-// 'arm-lock': 0, 'estrangulamento': 0, 'guarda-fechada': 0, 'kimura': 0, 'passagem-guarda': 0, 
-//     'quedas': 0, 'saída-100kg': 0, 'saída-montada': 0, 'triangulo': 0
